@@ -66,7 +66,7 @@ ___
 ___
 
 
-#### Интеграция в основную сборку [правила 1](https://github.com/dimakomplekt/IDDF/src/file_data_fill.bas) путём копирования:
+#### Интеграция в основную сборку [правила 1](https://github.com/dimakomplekt/IDDF_1.0/blob/main/src/file_data_fill.bas) путём копирования:
 
 ___
 
@@ -93,7 +93,7 @@ ___
 ___
 
 
-#### Интеграция [правила 2](https://github.com/dimakomplekt/IDDF/src/drawing_parameters_get.bas) в какой-либо чертеж путём копирования:
+#### Интеграция [правила 2](https://github.com/dimakomplekt/IDDF_1.0/blob/main/src/drawing_parameters_get.bas) в какой-либо чертеж путём копирования:
 
 ___
 
