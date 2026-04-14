@@ -31,9 +31,9 @@
 
 Основные сведения о макросах:
 
-   * [Макрос для передачи данных в файлы деталей и сборок](https://github.com/dimakomplekt/IDDF/description/file_data_desription.md)
+   * [Макрос для передачи данных в файлы деталей и сборок](https://github.com/dimakomplekt/IDDF_1.0/blob/main/description/file_data_desription.md)
 
-   * [Макрос для передачи данных в файлы чертежей](https://github.com/dimakomplekt/IDDF/description/drawing_parameters_get_desription)
+   * [Макрос для передачи данных в файлы чертежей](https://github.com/dimakomplekt/IDDF_1.0/blob/main/description/drawing_parameters_get_desription.md)
 
 
 ## Пример работы (через последовательность формирования элементов)
