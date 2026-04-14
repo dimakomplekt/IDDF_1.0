@@ -1,8 +1,8 @@
-1) Никогда не использовать Set для объявления - ТОЛЬКО dim (Set — присвоение объектной переменной – не работает в инвенторе!!!). Объекты делае без 
+1) Никогда не использовать Set для объявления - ТОЛЬКО dim (Set — присвоение объектной переменной – не работает в инвенторе!!!). Объекты делае без Set:
 
 ``` bas
 
-Set - fso = CreateObject("Scripting.FileSystemObject") ' Object, без Set
+fso = CreateObject("Scripting.FileSystemObject") ' Object, без Set
 
 ```
 
