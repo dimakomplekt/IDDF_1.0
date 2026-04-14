@@ -48,7 +48,7 @@ ___
 ___
 
 
-#### Заполнение таблицы ведомости (форма доступна в [ref](https://github.com/dimakomplekt/IDDF/ref)):
+#### Заполнение таблицы ведомости (форма доступна в [ref](https://github.com/dimakomplekt/IDDF/ref](https://github.com/dimakomplekt/IDDF_1.0/tree/main/ref)):
 
 ___
 
