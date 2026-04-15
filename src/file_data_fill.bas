@@ -36,7 +36,7 @@ Sub Main()
 ' 12. Завершение работы
 
     ' Имя листа части ведомости для парсинга
-    Dim SHEET_FOR_DATA_PARSE = "Ведомость для парсинга" 
+    Dim SHEET_FOR_DATA_PARSE = "НА ПАРСИНГ" 
 
     Try
 
@@ -232,7 +232,7 @@ Sub process_document(doc As Document, worksheet As Object, visited As Object, By
 
         Dim status As String
         ' Получение статуса (например: "закуп", "собств.")
-        status = get_cell_text_by_row_col(worksheet, row, 6)
+        status = get_cell_text_by_row_col(worksheet, row, 5)
 
         ' Пропуск покупных изделий (с приведением к нижнему регистру)
         If LCase(status) = "закуп" Then Exit Sub
@@ -328,7 +328,7 @@ Function find_table_row_by_name(ws As Object, searchName As String) As Long
         Dim cell_value As String
 
         ' Получаем значение ячейки через геттер
-        cell_value = get_cell_text_by_row_col(ws, row, 2)
+        cell_value = get_cell_text_by_row_col(ws, row, 1)
 
         ' Если строка пустая — увеличиваем счётчик
         If cell_value = "" Then
@@ -375,23 +375,23 @@ Function get_row_values(ws As Object, row As Long) As Object
     ' Чтение значений из фиксированных колонок таблицы
     ' (жёсткая привязка структуры Excel → структуры данных!!!)
 
-    d.Add("position_number", get_cell_text_by_row_col(ws, row, 1))
-    d.Add("part_number", get_cell_text_by_row_col(ws, row, 3))
-    d.Add("part_name", get_cell_text_by_row_col(ws, row, 4))
-    d.Add("part_type", get_cell_text_by_row_col(ws, row, 5))
-    d.Add("part_developer", get_cell_text_by_row_col(ws, row, 7))
-    d.Add("developer_date", get_cell_text_by_row_col(ws, row, 8))
-    d.Add("part_test", get_cell_text_by_row_col(ws, row, 9))
-    d.Add("test_date", get_cell_text_by_row_col(ws, row, 10))
-    d.Add("part_tech_control", get_cell_text_by_row_col(ws, row, 11))
-    d.Add("tech_control_date", get_cell_text_by_row_col(ws, row, 12))
-    d.Add("part_department_head", get_cell_text_by_row_col(ws, row, 13))
-    d.Add("department_head_date", get_cell_text_by_row_col(ws, row, 14))
-    d.Add("part_norms_control", get_cell_text_by_row_col(ws, row, 15))
-    d.Add("norms_control_date", get_cell_text_by_row_col(ws, row, 16))
-    d.Add("part_approved_by", get_cell_text_by_row_col(ws, row, 17))
-    d.Add("part_approved_date", get_cell_text_by_row_col(ws, row, 18))
-    d.Add("part_company", get_cell_text_by_row_col(ws, row, 19))
+    d.Add("part_number", get_cell_text_by_row_col(ws, row, 2))
+    d.Add("part_name", get_cell_text_by_row_col(ws, row, 3))
+    d.Add("part_type", get_cell_text_by_row_col(ws, row, 4))
+
+    d.Add("part_developer", get_cell_text_by_row_col(ws, row, 6))
+    d.Add("developer_date", get_cell_text_by_row_col(ws, row, 7))
+    d.Add("part_test", get_cell_text_by_row_col(ws, row, 8))
+    d.Add("test_date", get_cell_text_by_row_col(ws, row, 9))
+    d.Add("part_tech_control", get_cell_text_by_row_col(ws, row, 10))
+    d.Add("tech_control_date", get_cell_text_by_row_col(ws, row, 11))
+    d.Add("part_department_head", get_cell_text_by_row_col(ws, row, 12))
+    d.Add("department_head_date", get_cell_text_by_row_col(ws, row, 13))
+    d.Add("part_norms_control", get_cell_text_by_row_col(ws, row, 14))
+    d.Add("norms_control_date", get_cell_text_by_row_col(ws, row, 15))
+    d.Add("part_approved_by", get_cell_text_by_row_col(ws, row, 16))
+    d.Add("part_approved_date", get_cell_text_by_row_col(ws, row, 17))
+    d.Add("part_company", get_cell_text_by_row_col(ws, row, 18))
 
     ' Возвращаем "плоский объект данных" для дальнейшей передачи
     ' (в параметры, iProperties и лог)
@@ -464,7 +464,6 @@ Sub set_user_parameters(doc As Document, values As Object, debug_path As String)
 
         ' Установка каждого параметра через безопасный метод
 
-        safe_set_param(doc, "position_number", values("position_number"), debug_path)
         safe_set_param(doc, "part_number", values("part_number"), debug_path)
         safe_set_param(doc, "part_name", values("part_name"), debug_path)
         safe_set_param(doc, "part_type", values("part_type"), debug_path)
@@ -543,7 +542,7 @@ Sub set_IProperties(doc As Document, values As Object, debug_path As String)
 
         ' === Design Tracking Properties ===
         ' Основные инженерные и производственные атрибуты
-        doc.PropertySets.Item("Design Tracking Properties").Item("Stock Number").Value = values("position_number")
+
         doc.PropertySets.Item("Design Tracking Properties").Item("Part Number").Value = values("part_number")
         doc.PropertySets.Item("Design Tracking Properties").Item("Creation Time").Value = values("developer_date")
         doc.PropertySets.Item("Design Tracking Properties").Item("Checked By").Value = values("part_test")
@@ -589,7 +588,6 @@ Function build_log_section(name As String, values As Object) As String
     s = s & name & vbCrLf
     s = s & "---------------------------------------------------------" & vbCrLf
 
-    s = s & vbCrLf & "position_number: " & values("position_number") & vbCrLf
     s = s & "part_number: " & values("part_number") & vbCrLf
     s = s & "part_name: " & values("part_name") & vbCrLf
     s = s & "part_type: " & values("part_type") & vbCrLf

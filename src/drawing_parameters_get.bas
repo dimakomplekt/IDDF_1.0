@@ -100,29 +100,28 @@ Sub Main()
     ' - если ошибка → ""
     ' - никаких падений
 
-    Dim position_number As String = clean_string(get_parameters(main_model_document, "position_number")) ' A
-    Dim part_number As String = clean_string(get_parameters(main_model_document, "part_number")) ' C
-    Dim part_name As String = clean_string(get_parameters(main_model_document, "part_name")) ' D
-    Dim part_type As String = clean_string(get_parameters(main_model_document, "part_type")) ' E
-    Dim part_developer As String = clean_string(get_parameters(main_model_document, "part_developer")) ' G
+    Dim part_number As String = clean_string(get_parameters(main_model_document, "part_number")) ' B
+    Dim part_name As String = clean_string(get_parameters(main_model_document, "part_name")) ' C
+    Dim part_type As String = clean_string(get_parameters(main_model_document, "part_type")) ' D
+    Dim part_developer As String = clean_string(get_parameters(main_model_document, "part_developer")) ' E
 
-    Dim developer_date As String = clean_string(get_parameters(main_model_document, "developer_date")) ' H
-    Dim part_test As String = clean_string(get_parameters(main_model_document, "part_test")) ' I
-    Dim test_date As String = clean_string(get_parameters(main_model_document, "test_date")) ' J
+    Dim developer_date As String = clean_string(get_parameters(main_model_document, "developer_date")) ' F
+    Dim part_test As String = clean_string(get_parameters(main_model_document, "part_test")) ' G
+    Dim test_date As String = clean_string(get_parameters(main_model_document, "test_date")) ' H
 
-    Dim part_tech_control As String = clean_string(get_parameters(main_model_document, "part_tech_control")) ' K
-    Dim tech_control_date As String = clean_string(get_parameters(main_model_document, "tech_control_date")) ' L
+    Dim part_tech_control As String = clean_string(get_parameters(main_model_document, "part_tech_control")) ' I
+    Dim tech_control_date As String = clean_string(get_parameters(main_model_document, "tech_control_date")) ' J
 
-    Dim part_department_head As String = clean_string(get_parameters(main_model_document, "part_department_head")) ' M
-    Dim department_head_date As String = clean_string(get_parameters(main_model_document, "department_head_date")) ' N
+    Dim part_department_head As String = clean_string(get_parameters(main_model_document, "part_department_head")) ' L
+    Dim department_head_date As String = clean_string(get_parameters(main_model_document, "department_head_date")) ' M
 
-    Dim part_norms_control As String = clean_string(get_parameters(main_model_document, "part_norms_control")) ' O
-    Dim norms_control_date As String = clean_string(get_parameters(main_model_document, "norms_control_date")) ' P
+    Dim part_norms_control As String = clean_string(get_parameters(main_model_document, "part_norms_control")) ' N
+    Dim norms_control_date As String = clean_string(get_parameters(main_model_document, "norms_control_date")) ' O
 
-    Dim part_approved_by As String = clean_string(get_parameters(main_model_document, "part_approved_by")) ' Q
-    Dim part_approved_date As String = clean_string(get_parameters(main_model_document, "part_approved_date")) ' R
+    Dim part_approved_by As String = clean_string(get_parameters(main_model_document, "part_approved_by")) ' P
+    Dim part_approved_date As String = clean_string(get_parameters(main_model_document, "part_approved_date")) ' Q
 
-    Dim part_company As String = clean_string(get_parameters(main_model_document, "part_company")) ' S
+    Dim part_company As String = clean_string(get_parameters(main_model_document, "part_company")) ' R
 
 
     ' =========================
@@ -137,7 +136,6 @@ Sub Main()
 
     ' --- Основные данные чертежа ---
     
-    safe_properties_setter(opened_drawing_document, "Design Tracking Properties", "Stock Number", position_number)
     safe_properties_setter(opened_drawing_document, "Design Tracking Properties", "Part Number", part_number)
     safe_properties_setter(opened_drawing_document, "Inventor Summary Information", "Title", part_name)
 
