@@ -102,7 +102,9 @@ Sub Main()
 
     Dim part_number As String = clean_string(get_parameters(main_model_document, "part_number")) ' B
     Dim part_name As String = clean_string(get_parameters(main_model_document, "part_name")) ' C
+
     Dim part_type As String = clean_string(get_parameters(main_model_document, "part_type")) ' D
+
     Dim part_developer As String = clean_string(get_parameters(main_model_document, "part_developer")) ' E
 
     Dim developer_date As String = clean_string(get_parameters(main_model_document, "developer_date")) ' F
@@ -122,6 +124,22 @@ Sub Main()
     Dim part_approved_date As String = clean_string(get_parameters(main_model_document, "part_approved_date")) ' Q
 
     Dim part_company As String = clean_string(get_parameters(main_model_document, "part_company")) ' R
+
+
+    Dim document_type As String = ""
+
+
+    If part_type = "Сборка" Then 
+        
+        ' Сейф от мультимутации строки
+        
+        If Not part_number.EndsWith("СБ") Then
+            part_number = part_number & "СБ"
+        End If
+
+        document_type = "Сборочный чертеж"
+
+    End If
 
 
     ' =========================
@@ -156,25 +174,11 @@ Sub Main()
     safe_properties_setter(opened_drawing_document, "Design Tracking Properties", "Mfg Date Approved", part_approved_date)
 
 
-    ' =========================
-    ' 5. ЛОГИКА ТИПА ДОКУМЕНТА
-    ' =========================
+    If document_type <> "" Then
 
-    ' Простейший rule-engine:
-    ' модель → тип чертежа
-
-    Dim document_type As String = ""
-
-    If part_type = "Сборка" Then
-        document_type = "Сборочный чертеж"
+        safe_properties_setter(opened_drawing_document, "Свойства ГОСТ", "Тип документа", document_type)
+    
     End If
-
-    Try
-        iProperties.Value("Свойства ГОСТ", "Тип документа") = clean_string(document_type)
-    Catch
-        ' тихо игнорируем
-    End Try
-
 
     ' Компания
     safe_properties_setter(opened_drawing_document, "Inventor Document Summary Information", "Company", part_company)
