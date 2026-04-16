@@ -55,6 +55,7 @@ Sub Main()
             Exit Sub
         End If
 
+
         Dim root_assembly As AssemblyDocument
         root_assembly = active_document
 
@@ -67,6 +68,7 @@ Sub Main()
         ' Путь к ведомости состава изделия
         Dim excel_path As String
         excel_path = path_combine(root_folder, "Ведомость состава изделия.xlsx")
+
 
         ' Проверка наличия Excel-файла
         If Not System.IO.File.Exists(excel_path) Then
@@ -93,6 +95,7 @@ Sub Main()
         workbook = excel_app.Workbooks.Open(excel_path)
         worksheet = get_worksheet_by_name_safe(workbook, SHEET_FOR_DATA_PARSE)
 
+
         ' Список уже обработанных файлов (защита от повторов)
         Dim visited As Object
         visited = CreateObject("Scripting.Dictionary")
@@ -103,6 +106,7 @@ Sub Main()
 
         ' Обработка корневой сборки
         process_document(root_assembly, worksheet, visited, log, True, debug_path)
+
         ' Рекурсивный обход всей структуры сборки
         process_occurrences(root_assembly.ComponentDefinition.Occurrences, worksheet, visited, log, debug_path)
 
@@ -255,6 +259,10 @@ Sub process_document(doc As Document, worksheet As Object, visited As Object, By
         ' Закрытие документа, если это не корневой (верхний) документ
         If Not is_root Then
             doc.Close(True)
+        Else
+            If Not visited.Exists(doc.FullFileName) Then
+                visited.Add(doc.FullFileName, True)
+            End If
         End If
 
     Catch ex As Exception
@@ -494,38 +502,61 @@ Sub safe_set_param(doc As Document, name As String, value As String, debug_path 
 
     Try
 
-        ' 1) Попытка установить параметр через iLogic (самый прямой путь)
-        Try
-            Parameter(name) = value
-            Exit Sub
-        Catch
-        End Try
-
-        ' 2) Резервный путь через API Inventor
+        ' =========================
+        ' 1. ДОСТУП К ПАРАМЕТРАМ ДОКУМЕНТА
+        ' =========================
+        ' ВАЖНО:
+        ' Всё строго через doc, никаких Parameter(name)
+        ' Parameter(name) = iLogic глобальный контекст (может писать не туда)
         Dim user_parameters As Object
         user_parameters = doc.ComponentDefinition.Parameters.UserParameters
 
+
+        ' =========================
+        ' 2. ПОИСК СУЩЕСТВУЮЩЕГО ПАРАМЕТРА
+        ' =========================
+        ' Inventor API не любит "TryGetValue" → только Item + Exception
         Dim current_parameter As Object
         current_parameter = Nothing
 
-        ' Попытка получить существующий параметр для простой замены в случае существования
         Try
             current_parameter = user_parameters.Item(name)
         Catch
+            ' параметра нет → это нормальный сценарий, не ошибка логики
             current_parameter = Nothing
         End Try
 
-        ' Если параметра нет — создаём
+
+        ' =========================
+        ' 3. СОЗДАНИЕ ИЛИ ОБНОВЛЕНИЕ
+        ' =========================
         If current_parameter Is Nothing Then
+
+            ' Параметр отсутствует → создаём новый текстовый
+            ' UnitsTypeEnum.kTextUnits = фиксируем как строку
             user_parameters.AddByValue(name, value, UnitsTypeEnum.kTextUnits)
+
         Else
-            ' Если есть — обновляем значение (как текст)
+
+            ' Параметр уже существует → просто обновляем выражение
+            ' ВАЖНО:
+            ' Expression требует строку в кавычках, поэтому оборачиваем ""value""
             current_parameter.Expression = """" & value & """"
+
         End If
 
-    ' Логирование ошибки установки конкретного параметра
+
     Catch ex As Exception
+
+        ' =========================
+        ' 4. ФАТАЛЬНЫЙ СБОЙ ПРИ РАБОТЕ С ПАРАМЕТРАМИ
+        ' =========================
+        ' Обычно сюда попадает:
+        ' - read-only документ
+        ' - сломанный occurrence
+        ' - отсутствующая структура Parameters
         append_debug(debug_path, "SET current_parameter ERR " & name & " " & ex.Message)
+
     End Try
 
 End Sub
