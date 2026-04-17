@@ -123,7 +123,7 @@ Sub Main()
     Dim part_approved_by As String = clean_string(get_parameters(main_model_document, "part_approved_by")) ' P
     Dim part_approved_date As String = clean_string(get_parameters(main_model_document, "part_approved_date")) ' Q
 
-    Dim part_company As String = clean_string(get_parameters(main_model_document, "part_company")) ' R
+    Dim part_company As String = get_parameters(main_model_document, "part_company") ' R
 
 
     Dim document_type As String = ""
