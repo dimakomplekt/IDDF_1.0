@@ -241,7 +241,6 @@ Sub process_drawing(opened_drawing_document As DrawingDocument)
     End If
 
 
-
     ' =========================
     ' 2. ЧТЕНИЕ ПАРАМЕТРОВ
     ' =========================
