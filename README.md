@@ -155,7 +155,7 @@ ___
 ___
 
 
-#### Выполнение правила 3:
+#### Интеграция и выполнение  [правила 3](https://github.com/dimakomplekt/IDDF_1.0/blob/main/src/all_drawings_parameters_get.bas):
 
 ___
 
